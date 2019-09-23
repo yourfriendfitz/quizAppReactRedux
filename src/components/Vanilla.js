@@ -1,113 +1,52 @@
 import React, { useState, useEffect } from "react";
-import { Container, Button as BootstrapButton } from "reactstrap";
 import styled from "styled-components";
 import * as Palette from "./Palette";
-import {
-  DiAngularSimple as NgIcon,
-  DiAtom as ReactIcon,
-  DiDotnet as DotnetIcon,
-  DiJsBadge as JsIcon
-} from "react-icons/di";
-import { FaVuejs as VueIcon, FaCheckCircle } from "react-icons/fa";
+import * as Generics from "./Generics";
+import { connect } from "react-redux";
+import * as actions from "../store/actions";
+import { DiJsBadge as JsIcon } from "react-icons/di";
 
-const Content = styled(Container)`
-  height: 80vh;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: auto;
-  grid-gap: 16px;
-  justify-content: center;
-  align-items: center;
-  background-size: cover;
-  border-radius: 8px;
+const Content = styled(Generics.UnstyledContent)`
   background-color: ${Palette.JavaScriptColor};
-  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
 `;
 
-const IconContainer = styled(Container)`
-  height: 100px;
-  display: grid;
-  justify-content: center;
-  padding: 16px;
-  border-radius: 8px;
-  text-align: center;
-  font-size: 80px;
-  opacity: 0.7;
-  :hover {
-    opacity: 1;
-  }
-  svg {
-    margin: auto;
-  }
-`;
-
-const AngularContainer = styled(IconContainer)`
+const AngularContainer = styled(Generics.TopLeft)`
   background-color: ${Palette.AngularColor};
-  grid-row: 3;
-  grid-column: 1;
 `;
 
-const ReactContainer = styled(IconContainer)`
+const ReactContainer = styled(Generics.TopRight)`
   background-color: ${Palette.ReactColor};
-  grid-row: 3;
-  grid-column: 2;
 `;
 
-const DotnetContainer = styled(IconContainer)`
+const DotnetContainer = styled(Generics.BottomLeft)`
   background-color: ${Palette.DotNetColor};
-  grid-row: 4;
-  grid-column: 1;
 `;
 
-const VueContainer = styled(IconContainer)`
+const VueContainer = styled(Generics.BottomRight)`
   background-color: ${Palette.VueColor};
-  grid-row: 4;
-  grid-column: 2;
 `;
 
-const JSContainer = styled(IconContainer)`
-  position: relative;
+const JSContainer = styled(Generics.TopBlock)`
   background-color: ${Palette.JavaScriptColor};
-  grid-column: 1/ -1;
 `;
 
-const IconTitle = styled.span`
-  font-size: 16px;
-  font-family: monospace;
-  margin: auto;
-`;
+const IconTitle = Generics.IconTitle;
 
-const QuestionText = styled(IconTitle)`
-  margin-top: 16px;
-  height: 80px;
-`;
+const QuestionText = Generics.QuestionText;
 
-const QuestionContainer = styled(IconContainer)`
-  grid-row: 2;
-  grid-column: 1/ -1;
-`;
+const QuestionContainer = Generics.QuestionContainer;
 
-const Button = styled(BootstrapButton)`
-  focus: {
-    outline: none;
-  }
-  margin-bottom: 16px;
-  grid-row: 5;
-  grid-column: 1/ -1;
-`;
+const Button = Generics.Button;
 
-const CheckmarkContainer = styled.div`
-  position: absolute;
-  font-size: 32px;
-  top: 4%;
-  left: 6%;
-`;
+const CheckmarkContainer = Generics.CheckmarkContainer;
 
-const Check = styled(FaCheckCircle)`
-  padding: 4px;
-`;
+const Check = Generics.Check;
 
-const SelectionText = styled(IconTitle)``;
+const SelectionText = Generics.SelectionText;
+
+const StatusText = Generics.StatusText;
+
+const StatusContainer = Generics.StatusContainer;
 
 const Vanilla = props => {
   const [questions, setQuestions] = useState([]);
@@ -129,10 +68,16 @@ const Vanilla = props => {
     }
     index == questions.length - 1 ? setIndex(0) : setIndex(index + 1);
   };
+  const handlePassed = () => {
+    if (!props.isPassed) {
+      props.onPass();
+    }
+    return "You've passed this quiz!";
+  };
   const Question = () => {
     return (
       <QuestionText>
-        {questions[index] ? questions[index].body : null}
+        {questions[index] ? questions[index].body : "Loading..."}
       </QuestionText>
     );
   };
@@ -151,6 +96,13 @@ const Vanilla = props => {
     <Content>
       <JSContainer>
         <CheckmarkContainer>
+          <StatusContainer>
+            <StatusText>
+              {rightAnswers >= 3
+                ? handlePassed()
+                : `${3 - rightAnswers} more correct to pass!`}
+            </StatusText>
+          </StatusContainer>
           {Checkmarks().map(check => check)}
         </CheckmarkContainer>
         <JsIcon data-tag={"js"} onClick={e => handleIconClick(e)} />
@@ -183,4 +135,15 @@ const Vanilla = props => {
   );
 };
 
-export { Vanilla };
+const mapStateToProps = state => ({
+  isPassed: state.quizRed.jsPassed
+});
+
+const mapDispatchToProps = dispatch => {
+  return { onPass: () => dispatch(actions.passAction("jsPassed")) };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Vanilla);
