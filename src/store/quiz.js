@@ -26,8 +26,10 @@ export default (state = initialState, { type, payload }) => {
         case "vuPassed":
           state.vuPassed = true;
           break;
+        default:
+          break;
       }
-      return { ...state};
+      return { ...state };
 
     default:
       return state;

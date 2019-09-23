@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Container, Button as BootstrapButton } from "reactstrap";
 import styled from "styled-components";
 import * as Palette from "./Palette";
 import { connect } from "react-redux";
@@ -13,10 +12,10 @@ import {
 import * as Generics from "./Generics";
 import { FaVuejs as VueIcon } from "react-icons/fa";
 import Vanilla from "./Vanilla";
-import { Angular } from "./Angular";
-import { ReactView } from "./React";
-import { Dotnet as DotnetView } from "./Dotnet";
-import { Vue } from "./Vue";
+import Angular from "./Angular";
+import ReactView from "./React";
+import DotnetView from "./Dotnet";
+import Vue from "./Vue";
 
 const Content = Generics.UnstyledContent;
 

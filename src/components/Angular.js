@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Container, Button as BootstrapButton } from "reactstrap";
 import styled from "styled-components";
 import * as Palette from "./Palette";
 import * as Generics from "./Generics";
-import {
-  DiAngularSimple as NgIcon,
-  DiAtom as ReactIcon,
-  DiDotnet as DotnetIcon,
-  DiJsBadge as JsIcon
-} from "react-icons/di";
-import { FaVuejs as VueIcon, FaCheckCircle } from "react-icons/fa";
+import { connect } from "react-redux";
+import * as actions from "../store/actions";
+import { DiAngularSimple as NgIcon } from "react-icons/di";
 
 const Content = styled(Generics.UnstyledContent)`
   background-color: ${Palette.AngularColor};
@@ -49,6 +44,10 @@ const Check = Generics.Check;
 
 const SelectionText = Generics.SelectionText;
 
+const StatusText = Generics.StatusText;
+
+const StatusContainer = Generics.StatusContainer;
+
 const Angular = props => {
   const [questions, setQuestions] = useState([]);
   const [index, setIndex] = useState(0);
@@ -64,10 +63,19 @@ const Angular = props => {
   const handleIconClick = e => {};
   const handleSelect = answer => {
     console.log(questions[index]);
-    if (answer == questions[index].answer) {
+    if (answer === questions[index].answer) {
       setRightAnswers(rightAnswers + 1);
     }
-    index == questions.length - 1 ? setIndex(0) : setIndex(index + 1);
+    index === questions.length - 1 ? setIndex(0) : setIndex(index + 1);
+  };
+  const handlePassed = (bool = false) => {
+    if (bool && rightAnswers !== 3) {
+      setRightAnswers(3);
+    }
+    if (!props.isPassed) {
+      props.onPass();
+    }
+    return "You've passed this quiz!";
   };
   const Question = () => {
     return (
@@ -80,7 +88,7 @@ const Angular = props => {
     let checkmarksArray = [];
     const populateChecks = () => {
       for (let i = 0; i < rightAnswers; i++) {
-        checkmarksArray.push(<Check />);
+        checkmarksArray.push(<Check key={i} />);
       }
     };
     populateChecks();
@@ -91,6 +99,15 @@ const Angular = props => {
     <Content>
       <AngularContainer>
         <CheckmarkContainer>
+          <StatusContainer>
+            <StatusText>
+              {props.isPassed
+                ? handlePassed(true)
+                : rightAnswers >= 3
+                ? handlePassed()
+                : `${3 - rightAnswers} more correct to pass!`}
+            </StatusText>
+          </StatusContainer>
           {Checkmarks().map(check => check)}
         </CheckmarkContainer>
         <NgIcon onClick={() => handleIconClick("ng")} />
@@ -99,22 +116,22 @@ const Angular = props => {
       <QuestionContainer>
         <Question />
       </QuestionContainer>
-      <JSContainer>
+      <JSContainer onClick={() => handleSelect("A")}>
         <SelectionText>
           {questions[index] ? questions[index].selections[0] : "A"}
         </SelectionText>
       </JSContainer>
-      <ReactContainer>
+      <ReactContainer onClick={() => handleSelect("B")}>
         <SelectionText>
           {questions[index] ? questions[index].selections[1] : "B"}
         </SelectionText>
       </ReactContainer>
-      <DotnetContainer>
+      <DotnetContainer onClick={() => handleSelect("C")}>
         <SelectionText>
           {questions[index] ? questions[index].selections[2] : "C"}
         </SelectionText>
       </DotnetContainer>
-      <VueContainer>
+      <VueContainer onClick={() => handleSelect("D")}>
         <SelectionText>
           {questions[index] ? questions[index].selections[3] : "D"}
         </SelectionText>
@@ -124,4 +141,15 @@ const Angular = props => {
   );
 };
 
-export { Angular };
+const mapStateToProps = state => ({
+  isPassed: state.quizRed.ngPassed
+});
+
+const mapDispatchToProps = dispatch => {
+  return { onPass: () => dispatch(actions.passAction("ngPassed")) };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Angular);

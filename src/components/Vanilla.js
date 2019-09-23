@@ -30,8 +30,6 @@ const JSContainer = styled(Generics.TopBlock)`
   background-color: ${Palette.JavaScriptColor};
 `;
 
-const IconTitle = Generics.IconTitle;
-
 const QuestionText = Generics.QuestionText;
 
 const QuestionContainer = Generics.QuestionContainer;
@@ -63,12 +61,15 @@ const Vanilla = props => {
   const handleIconClick = e => {};
   const handleSelect = answer => {
     console.log(questions[index]);
-    if (answer == questions[index].answer) {
+    if (answer === questions[index].answer) {
       setRightAnswers(rightAnswers + 1);
     }
-    index == questions.length - 1 ? setIndex(0) : setIndex(index + 1);
+    index === questions.length - 1 ? setIndex(0) : setIndex(index + 1);
   };
-  const handlePassed = () => {
+  const handlePassed = (bool = false) => {
+    if (bool && rightAnswers !== 3) {
+      setRightAnswers(3);
+    }
     if (!props.isPassed) {
       props.onPass();
     }
@@ -85,7 +86,7 @@ const Vanilla = props => {
     let checkmarksArray = [];
     const populateChecks = () => {
       for (let i = 0; i < rightAnswers; i++) {
-        checkmarksArray.push(<Check />);
+        checkmarksArray.push(<Check key={i} />);
       }
     };
     populateChecks();
@@ -98,7 +99,9 @@ const Vanilla = props => {
         <CheckmarkContainer>
           <StatusContainer>
             <StatusText>
-              {rightAnswers >= 3
+              {props.isPassed
+                ? handlePassed(true)
+                : rightAnswers >= 3
                 ? handlePassed()
                 : `${3 - rightAnswers} more correct to pass!`}
             </StatusText>
