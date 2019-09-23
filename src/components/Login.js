@@ -78,7 +78,6 @@ const Login = props => {
       <TitleInImageDiv>
         <TitleInImage>
           <LoginTitle>
-            {" "}
             <span role="img" aria-label="none">
               <JsIcon />
               <NgIcon />
