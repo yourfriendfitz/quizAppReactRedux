@@ -34,6 +34,10 @@ const NavbarToggler = styled(BootstrapNavbarToggler)`
   }
 `;
 
+const Brand = styled.span`
+font-family: 'Orbitron', sans-serif;
+`
+
 const NavMenu = props => {
   const [collapsed, setCollapsed] = useState(true);
 
@@ -48,9 +52,9 @@ const NavMenu = props => {
     >
       <Container>
         <NavbarBrand tag={Link} to="/">
-          <span aria-label="none" role="img">
-            💯💯💯
-          </span>
+          <Brand aria-label="none" role="img">
+            StackFAQs
+          </Brand>
         </NavbarBrand>
         <NavbarToggler onClick={toggleNavbar} className="mr-2" />
         <Collapse
