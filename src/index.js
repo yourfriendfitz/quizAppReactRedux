@@ -9,9 +9,11 @@ import * as serviceWorker from "./serviceWorker";
 import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import authReducer from "./store/auth";
+import quizReducer from "./store/quiz";
 
 const rootReducer = combineReducers({
-  authRed: authReducer
+  authRed: authReducer,
+  quizRed: quizReducer
 });
 
 const baseUrl = document.getElementsByTagName("base")[0].getAttribute("href");

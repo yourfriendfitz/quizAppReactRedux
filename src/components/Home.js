@@ -2,46 +2,27 @@ import React, { useState } from "react";
 import { Container, Button as BootstrapButton } from "reactstrap";
 import styled from "styled-components";
 import * as Palette from "./Palette";
+import { connect } from "react-redux";
+import * as actions from "../store/actions";
 import {
   DiAngularSimple as NgIcon,
   DiAtom as ReactIcon,
   DiDotnet as DotnetIcon,
   DiJsBadge as JsIcon
 } from "react-icons/di";
+import * as Generics from "./Generics";
 import { FaVuejs as VueIcon } from "react-icons/fa";
-import { Vanilla } from "./Vanilla";
+import Vanilla from "./Vanilla";
 import { Angular } from "./Angular";
 import { ReactView } from "./React";
 import { Dotnet as DotnetView } from "./Dotnet";
 import { Vue } from "./Vue";
 
-const Content = styled(Container)`
-  height: 80vh;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 16px;
-  justify-content: center;
-  align-items: center;
-  background-size: cover;
-  border-radius: 8px;
-  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
-`;
+const Content = Generics.UnstyledContent;
 
-const IconContainer = styled(Container)`
-  display: grid;
-  justify-content: center;
-  margin: auto;
-  padding: 16px;
-  border-radius: 8px;
-  text-align: center;
-  font-size: 80px;
-  opacity: 0.7;
-  :hover {
-    opacity: 1;
-  }
-  svg {
-    margin: auto;
-  }
+const IconContainer = styled(Generics.IconContainer)`
+  position: relative;
+  height: auto;
 `;
 
 const BlockIconContainer = styled(IconContainer)`
@@ -70,11 +51,17 @@ const VueContainer = styled(BlockIconContainer)`
   background-color: ${Palette.VueColor};
 `;
 
-const IconTitle = styled.span`
-  font-size: 16px;
-  font-family: monospace;
-  margin: auto;
+const IconTitle = Generics.IconTitle;
+
+const CheckmarkContainer = styled(Generics.CheckmarkContainer)`
+  text-align: center;
 `;
+
+const Check = styled(Generics.Check)`
+  grid-row: 1;
+`;
+
+const StatusText = Generics.StatusText;
 
 const Home = props => {
   const [view, setView] = useState({ selected: "main" });
@@ -97,22 +84,57 @@ const Home = props => {
       return (
         <Content>
           <JSContainer>
+            <CheckmarkContainer>
+              {props.state.jsPassed ? (
+                <Check />
+              ) : (
+                <StatusText>Incomplete</StatusText>
+              )}
+            </CheckmarkContainer>
             <JsIcon onClick={() => handleIconClick("js")} />
             <IconTitle>Vanilla JS</IconTitle>
           </JSContainer>
           <AngularContainer>
+            <CheckmarkContainer>
+              {props.state.ngPassed ? (
+                <Check />
+              ) : (
+                <StatusText>Incomplete</StatusText>
+              )}
+            </CheckmarkContainer>
             <NgIcon onClick={() => handleIconClick("ng")} />
             <IconTitle>Angular JS</IconTitle>
           </AngularContainer>
           <ReactContainer>
+            <CheckmarkContainer>
+              {props.state.rcPassed ? (
+                <Check />
+              ) : (
+                <StatusText>Incomplete</StatusText>
+              )}
+            </CheckmarkContainer>
             <ReactIcon onClick={() => handleIconClick("rc")} />
             <IconTitle>React JS</IconTitle>
           </ReactContainer>
           <DotnetContainer>
+            <CheckmarkContainer>
+              {props.state.dnPassed ? (
+                <Check />
+              ) : (
+                <StatusText>Incomplete</StatusText>
+              )}
+            </CheckmarkContainer>
             <DotnetIcon onClick={() => handleIconClick("dn")} />
             <IconTitle>Microsoft .NET</IconTitle>
           </DotnetContainer>
           <VueContainer>
+            <CheckmarkContainer>
+              {props.state.vuPassed ? (
+                <Check />
+              ) : (
+                <StatusText>Incomplete</StatusText>
+              )}
+            </CheckmarkContainer>
             <VueIcon onClick={() => handleIconClick("vu")} />
             <IconTitle>Vue JS</IconTitle>
           </VueContainer>
@@ -121,4 +143,15 @@ const Home = props => {
   }
 };
 
-export { Home };
+const mapStateToProps = state => ({
+  state: state.quizRed
+});
+
+const mapDispatchToProps = dispatch => {
+  return { onAllPass: () => dispatch(actions.allPassAction()) };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);
