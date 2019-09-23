@@ -1,0 +1,12 @@
+const Primary = "#E0E1DD";
+const Secondary = "#778DA9";
+const AltPrimary = "#415A77";
+const AltSecondary = "#1B263B";
+const Text = "#0D1B2A";
+const Alert = "#963939";
+const JavaScriptColor = "#f1df1d";
+const AngularColor = "#ef0010";
+const VueColor = "#00bf83";
+const DotNetColor = "#336aae";
+const ReactColor = "#00ddff";
+export { Primary, Secondary, AltPrimary, AltSecondary, Text, Alert, JavaScriptColor, AngularColor, VueColor, DotNetColor, ReactColor };
