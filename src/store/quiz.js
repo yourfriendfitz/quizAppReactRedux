@@ -4,7 +4,8 @@ const initialState = {
   ngPassed: false,
   rcPassed: false,
   dnPassed: false,
-  vuPassed: false
+  vuPassed: false,
+  viewWin: false
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -29,6 +30,12 @@ export default (state = initialState, { type, payload }) => {
         default:
           break;
       }
+      return { ...state };
+    case actionTypes.VIEW_WIN:
+      state.viewWin = true;
+      return { ...state };
+    case actionTypes.RETURN:
+      state.viewWin = false;
       return { ...state };
 
     default:

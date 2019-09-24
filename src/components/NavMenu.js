@@ -16,10 +16,6 @@ import "./NavMenu.css";
 import { connect } from "react-redux";
 import * as actions from "../store/actions";
 
-const Text = styled.span`
-  color: ${Palette.Text};
-`;
-
 const Button = styled(BootstrapButton)`
   :focus {
     outline: none;
@@ -28,6 +24,8 @@ const Button = styled(BootstrapButton)`
   color: ${Palette.Primary};
 `;
 
+const WinnerButton = styled(Button)``;
+
 const NavbarToggler = styled(BootstrapNavbarToggler)`
   :focus {
     outline: none;
@@ -35,8 +33,17 @@ const NavbarToggler = styled(BootstrapNavbarToggler)`
 `;
 
 const Brand = styled.span`
-font-family: 'Orbitron', sans-serif;
-`
+  font-family: "Orbitron", sans-serif;
+`;
+
+const ButtonsGrid = styled.ul`
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, 1fr);
+  @media (max-width: 576px) {
+    grid-template-columns: auto;
+  }
+`;
 
 const NavMenu = props => {
   const [collapsed, setCollapsed] = useState(true);
@@ -44,6 +51,28 @@ const NavMenu = props => {
   const toggleNavbar = () => {
     setCollapsed(!collapsed);
   };
+
+  const DisplayWinnerButton = bool => {
+    const content = bool ? (
+      <WinnerButton onClick={() => props.onViewWin()} block>
+        Winner
+      </WinnerButton>
+    ) : (
+      <WinnerButton disabled block>
+        Winner
+      </WinnerButton>
+    );
+    return content;
+  };
+
+  const AllPassed =
+    props.state.jsPassed &&
+    props.state.ngPassed &&
+    props.state.rcPassed &&
+    props.state.dnPassed &&
+    props.state.vuPassed
+      ? true
+      : false;
 
   const content = (
     <Navbar
@@ -62,18 +91,27 @@ const NavMenu = props => {
           isOpen={!collapsed}
           navbar
         >
-          <ul className="navbar-nav flex-grow">
+          <ButtonsGrid className="navbar-nav flex-grow">
             <NavItem>
+              <NavLink>
+                {AllPassed
+                  ? DisplayWinnerButton(true)
+                  : DisplayWinnerButton(false)}
+              </NavLink>
+            </NavItem>
+            <NavItem className="align-self-end">
               <NavLink tag={Link} className="text-dark" to="/">
-                <Text>Home</Text>
+                <Button block>Home</Button>
               </NavLink>
             </NavItem>
             <NavItem>
-              <Button block onClick={() => props.onSignOut()}>
-                Sign Out
-              </Button>
+              <NavLink>
+                <Button block onClick={() => props.onSignOut()}>
+                  Sign Out
+                </Button>
+              </NavLink>
             </NavItem>
-          </ul>
+          </ButtonsGrid>
         </Collapse>
       </Container>
     </Navbar>
@@ -84,13 +122,15 @@ const NavMenu = props => {
 
 const mapStateToProps = state => {
   return {
-    isAuth: state.authRed.isAuth
+    isAuth: state.authRed.isAuth,
+    state: state.quizRed
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSignOut: () => dispatch(actions.unauthAction())
+    onSignOut: () => dispatch(actions.unauthAction()),
+    onViewWin: () => dispatch(actions.viewWinAction())
   };
 };
 

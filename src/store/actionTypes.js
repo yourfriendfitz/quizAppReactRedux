@@ -2,4 +2,7 @@ const AUTH = "AUTH"
 const UNAUTH = "UNAUTH"
 const PASS = "PASS"
 const ALL_PASS = "ALL_PASS"
-export { AUTH, UNAUTH, PASS, ALL_PASS };
+const VIEW_WIN = "VIEW_WIN"
+const RETURN = "RETURN"
+const SUBMIT_NAME = "SUBMIT_NAME"
+export { AUTH, UNAUTH, PASS, ALL_PASS, VIEW_WIN, RETURN, SUBMIT_NAME };

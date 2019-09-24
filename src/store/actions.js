@@ -15,4 +15,24 @@ const allPassAction = (payload = {}) => ({
   type: actionTypes.ALL_PASS,
   payload
 });
-export { authAction, unauthAction, passAction, allPassAction };
+const viewWinAction = (payload = {}) => ({
+  type: actionTypes.VIEW_WIN,
+  payload
+});
+const returnAction = (payload = {}) => ({
+  type: actionTypes.RETURN,
+  payload
+});
+const submitNameAction = (payload = {}) => ({
+  type: actionTypes.SUBMIT_NAME,
+  payload
+});
+export {
+  authAction,
+  unauthAction,
+  passAction,
+  allPassAction,
+  viewWinAction,
+  returnAction,
+  submitNameAction
+};

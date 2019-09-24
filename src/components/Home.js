@@ -16,6 +16,7 @@ import Angular from "./Angular";
 import ReactView from "./React";
 import DotnetView from "./Dotnet";
 import Vue from "./Vue";
+import Win from "./Win";
 
 const Content = Generics.UnstyledContent;
 
@@ -68,19 +69,45 @@ const Home = props => {
     console.log("click", string);
     setView({ selected: string });
   };
+  const returnMain = () => {
+    props.onReturn();
+    setView({ selected: "main" });
+  };
   switch (view.selected) {
     case "js":
-      return <Vanilla onBack={() => setView({ view: "main" })} />;
+      return props.state.viewWin ? (
+        <Win onBack={() => returnMain()} />
+      ) : (
+        <Vanilla onBack={() => setView({ view: "main" })} />
+      );
     case "ng":
-      return <Angular onBack={() => setView({ view: "main" })} />;
+      return props.state.viewWin ? (
+        <Win onBack={() => returnMain()} />
+      ) : (
+        <Angular onBack={() => setView({ view: "main" })} />
+      );
     case "rc":
-      return <ReactView onBack={() => setView({ view: "main" })} />;
+      return props.state.viewWin ? (
+        <Win onBack={() => returnMain()} />
+      ) : (
+        <ReactView onBack={() => setView({ view: "main" })} />
+      );
     case "dn":
-      return <DotnetView onBack={() => setView({ view: "main" })} />;
+      return props.state.viewWin ? (
+        <Win onBack={() => returnMain()} />
+      ) : (
+        <DotnetView onBack={() => setView({ view: "main" })} />
+      );
     case "vu":
-      return <Vue onBack={() => setView({ view: "main" })} />;
+      return props.state.viewWin ? (
+        <Win onBack={() => returnMain()} />
+      ) : (
+        <Vue onBack={() => setView({ view: "main" })} />
+      );
     default:
-      return (
+      return props.state.viewWin ? (
+        <Win onBack={() => returnMain()} />
+      ) : (
         <Content>
           <JSContainer>
             <CheckmarkContainer>
@@ -147,7 +174,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => {
-  return { onAllPass: () => dispatch(actions.allPassAction()) };
+  return {
+    onAllPass: () => dispatch(actions.allPassAction()),
+    onReturn: () => dispatch(actions.returnAction())
+  };
 };
 
 export default connect(
