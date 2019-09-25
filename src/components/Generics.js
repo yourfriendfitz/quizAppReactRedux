@@ -61,7 +61,6 @@ const Check = styled(FaCheckCircle)`
 const IconTitle = styled.span`
   font-size: 16px;
   font-family: monospace;
-  margin: auto;
 `;
 
 const QuestionText = styled(IconTitle)`
@@ -69,7 +68,9 @@ const QuestionText = styled(IconTitle)`
   height: 80px;
 `;
 
-const SelectionText = styled(IconTitle)``;
+const SelectionText = styled(IconTitle)`
+  margin: auto;
+`;
 
 const StatusContainer = styled.div`
   grid-row: 1;

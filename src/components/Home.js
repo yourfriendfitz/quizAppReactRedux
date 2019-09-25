@@ -29,6 +29,7 @@ const BlockIconContainer = styled(IconContainer)`
   grid-row: 3;
   grid-column: 1/ -1;
   max-width: 50%;
+  text-align: center;
 `;
 
 const JSContainer = styled(IconContainer)`
