@@ -67,7 +67,6 @@ const StatusText = Generics.StatusText;
 const Home = props => {
   const [view, setView] = useState({ selected: "main" });
   const handleIconClick = string => {
-    console.log("click", string);
     setView({ selected: string });
   };
   const returnMain = () => {
@@ -130,7 +129,7 @@ const Home = props => {
               )}
             </CheckmarkContainer>
             <NgIcon onClick={() => handleIconClick("ng")} />
-            <IconTitle>Angular JS</IconTitle>
+            <IconTitle>Angular</IconTitle>
           </AngularContainer>
           <ReactContainer>
             <CheckmarkContainer>
@@ -141,7 +140,7 @@ const Home = props => {
               )}
             </CheckmarkContainer>
             <ReactIcon onClick={() => handleIconClick("rc")} />
-            <IconTitle>React JS</IconTitle>
+            <IconTitle>React</IconTitle>
           </ReactContainer>
           <DotnetContainer>
             <CheckmarkContainer>
@@ -163,7 +162,7 @@ const Home = props => {
               )}
             </CheckmarkContainer>
             <VueIcon onClick={() => handleIconClick("vu")} />
-            <IconTitle>Vue JS</IconTitle>
+            <IconTitle>Vue</IconTitle>
           </VueContainer>
         </Content>
       );
