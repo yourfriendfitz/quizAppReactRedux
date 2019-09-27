@@ -23,7 +23,7 @@ const IconContainer = styled(Container)`
   border-radius: 8px;
   text-align: center;
   font-size: 80px;
-  opacity: 0.7;
+  opacity: 0.85;
   :hover {
     opacity: 1;
   }
