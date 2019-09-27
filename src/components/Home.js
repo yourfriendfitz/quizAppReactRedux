@@ -151,7 +151,7 @@ const Home = props => {
               )}
             </CheckmarkContainer>
             <DotnetIcon onClick={() => handleIconClick("dn")} />
-            <IconTitle>Microsoft .NET</IconTitle>
+            <IconTitle>.NET</IconTitle>
           </DotnetContainer>
           <VueContainer>
             <CheckmarkContainer>

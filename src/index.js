@@ -26,8 +26,6 @@ const Container = styled.div`
     ${Palette.AltPrimary}
   );
   display: grid;
-  height: 100vh;
-  width: 100vw;
 `;
 
 const store = createStore(
