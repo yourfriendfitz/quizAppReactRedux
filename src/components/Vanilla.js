@@ -52,7 +52,7 @@ const Vanilla = props => {
   const [rightAnswers, setRightAnswers] = useState(0);
   useEffect(() => {
     const fetchQuestions = async callback => {
-      const response = await fetch("https://lacy-ringer.glitch.me/questions");
+      const response = await fetch("https://lacy-ringer.glitch.me/questions/js");
       const questions = await response.json();
       callback(questions);
     };
