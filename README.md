@@ -5,3 +5,5 @@ Live Link: [FiveQuiz](https://fivequiz.netlify.com)
 Screenshot: ![StackFAQs](screenshot.png)
 
 Technology Used: ![TechSlide](tech.png)
+
+Please help improve this project by opening a pull request with a proposed change!
